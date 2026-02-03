@@ -1,0 +1,10 @@
+[package]
+name = "NEURAL-NUMBERS"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+serde = "1.0.228"
+serde_json = "1.0.149"
+tch = {version = "0.23.0", feature=["download-libtorch"]}
+torch-sys = "0.23.0"

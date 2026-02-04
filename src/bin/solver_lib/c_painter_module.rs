@@ -2,6 +2,7 @@
 use eframe::egui::{Context, StrokeKind, Ui};
 
 pub struct PainterModule {
+    pub canvas_rect: Option<egui::Rect>,
     pub strokes: Vec<Vec<egui::Pos2>>,
     pub sizes: Vec<f32>,
     pub current_stroke: Vec<egui::Pos2>,
@@ -23,12 +24,19 @@ impl PainterModule {
             painter.circle_filled(p, radius, color);
         }
     }
+
 }
 
 impl PainterModule {
-    pub fn draw_painter_panel(&mut self, ui: &mut Ui) {
+    pub fn draw_painter_panel(&mut self, ui: &mut Ui) -> bool{
+
+        let mut check = false;
+
         let canvas_size = egui::vec2(420.0, 420.0);
+
+
         let (rect, response) = ui.allocate_exact_size(canvas_size, egui::Sense::drag());
+        self.canvas_rect = Some(rect);
 
         let painter = ui.painter();
 
@@ -59,6 +67,8 @@ impl PainterModule {
             }
 
             self.current_stroke.clear();
+
+            check = true;
         }
 
 
@@ -68,6 +78,9 @@ impl PainterModule {
             Self::draw_dots(painter, line, size, egui::Color32::BLACK);
         }
         Self::draw_dots(painter, &self.current_stroke, self.brush_size, egui::Color32::BLACK);
+
+
+        return check;
     }
 
     pub fn clear(&mut self) {
@@ -82,6 +95,7 @@ impl PainterModule {
 impl Default for PainterModule {
     fn default() -> Self {
         Self{
+            canvas_rect: None,
             strokes: vec![],
             sizes: vec![],
             current_stroke: vec![],

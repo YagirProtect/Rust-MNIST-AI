@@ -8,6 +8,7 @@ eframe = "0.33.3"
 serde = "1.0.228"
 serde_json = "1.0.149"
 tch = { version = "0.23", features = ["download-libtorch"] }
+egui = "0.33.3"
 
 [patch.crates-io]
 torch-sys = { path = "vendor/torch-sys-0.23.0" }

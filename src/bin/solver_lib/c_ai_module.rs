@@ -3,12 +3,13 @@ use tch::{nn, Device};
 use crate::shared_lib::c_trainer_config::TrainerConfig;
 use crate::shared_lib::f_ai_data::build_model;
 
-pub struct AIModule{
-    canvas_rect: Option<egui::Rect>,
-    device: Device,
-    vs: nn::VarStore,
-    model: nn::Sequential,
-    probs: [f32; 10],
+pub struct AIModule {
+    pub device: Device,
+    pub vs: nn::VarStore,
+    pub model: nn::Sequential,
+    pub probs: [f32; 10],
+    pub predicted: Option<i64>,
+    pub last_28_pixels: Option<Vec<f32>>
 }
 
 
@@ -22,11 +23,12 @@ impl AIModule{
 
 
         Self{
-            canvas_rect: None,
             device,
             vs,
             model,
             probs: [0.0; 10],
+            predicted: None,
+            last_28_pixels: None,
         }
     }
 }

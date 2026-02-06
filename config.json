@@ -1,5 +1,5 @@
 {
-  "epoch": 150,
+  "epoch": 300,
   "data_dir": "data/",
   "out_path": "models/mnist.ot",
   "image_dim": 784,

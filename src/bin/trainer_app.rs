@@ -65,13 +65,13 @@ fn finetune_on_mydata(config: &TrainerConfig){
 
     vs.load(&config.out_path).expect("load weights");
 
-    let (x_cpu, y_cpu) = load_mydata("mydata");
+    let (x_cpu, y_cpu) = load_mydata("mydata", config);
     let x = x_cpu.to_device(device);
     let y = y_cpu.to_device(device);
 
     let mut opt = nn::Adam::default().build(&vs, 1e-4).unwrap();
 
-    for epoch in 1..=500 {
+    for epoch in 1..=350 {
         let logits = model.forward(&x);
         let loss = logits.cross_entropy_for_logits(&y);
         opt.backward_step(&loss);
@@ -89,7 +89,7 @@ fn finetune_on_mydata(config: &TrainerConfig){
 }
 
 
-pub fn load_mydata(dir: impl AsRef<Path>) -> (Tensor, Tensor) {
+pub fn load_mydata(dir: impl AsRef<Path>, config: &TrainerConfig) -> (Tensor, Tensor) {
     let dir = dir.as_ref();
 
     let mut images: Vec<f32> = Vec::new();
@@ -123,7 +123,7 @@ pub fn load_mydata(dir: impl AsRef<Path>) -> (Tensor, Tensor) {
     // CNN: [N, 1, 28, 28]
     let x = Tensor::from_slice(&images)
         .to_kind(Kind::Float)
-        .view([n, 784]);
+        .view([n, config.image_dim]);
 
     let y = Tensor::from_slice(&labels).to_kind(Kind::Int64);
 

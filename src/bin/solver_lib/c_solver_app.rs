@@ -30,6 +30,15 @@ impl SolverApp {
 impl eframe::App for SolverApp {
     fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
 
+        let clear_pressed = ctx.input(|i| {
+            i.key_pressed(egui::Key::Space)
+        });
+
+        if clear_pressed {
+            self.painter_data.clear();
+        }
+
+
         egui::CentralPanel::default().show(ctx, |ui| {
             ui.heading("Draw a digit");
 
@@ -64,7 +73,9 @@ impl eframe::App for SolverApp {
             //     }
             // }
 
-            egui::ComboBox::from_label("Label")
+            ui.add_space(40.0);
+            ui.separator();
+            egui::ComboBox::from_label("Answer")
                 .selected_text(self.selected_label.to_string())
                 .show_ui(ui, |ui| {
                     for d in 0u8..=9 {

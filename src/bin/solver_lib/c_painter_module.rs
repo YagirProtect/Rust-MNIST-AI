@@ -99,7 +99,7 @@ impl Default for PainterModule {
             strokes: vec![],
             sizes: vec![],
             current_stroke: vec![],
-            brush_size: 10.0,
+            brush_size: 20.0,
         }
     }
 }
